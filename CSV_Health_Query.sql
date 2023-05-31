@@ -26,15 +26,18 @@ CREATE TABLE `cvs_health1` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 
--- CVS Health is trying to better understand its pharmacy sales, and how well different products are selling. Each drug can only be produced by one manufacturer.
+-- CVS Health is trying to better understand its pharmacy sales, and how well different products are selling. 
+-- Each drug can only be produced by one manufacturer.
 select * from cvs_health1;
--- Write a query to find the top 3 most profitable drugs sold, and how much profit they made. Assume that there are no ties in the profits. Display the result from the highest to the lowest total profit.
+-- Write a query to find the top 3 most profitable drugs sold, and how much profit they made.
+-- Assume that there are no ties in the profits. Display the result from the highest to the lowest total profit.
 SELECT drug,total_sales-cogs as total_profit
   FROM pharmacy_sales
     ORDER BY total_profit desc
       limit 3;
 
--- Write a query to identify the manufacturers associated with the drugs that resulted in losses for CVS Health and calculate the total amount of losses incurred.
+-- Write a query to identify the manufacturers associated with the drugs that resulted in losses for CVS Health and 
+-- calculate the total amount of losses incurred.
 
 select manufacturer,count(drug),
 abs(sum(total_profit))as total_loss
@@ -46,7 +49,8 @@ GROUP BY manufacturer
     ORDER BY total_loss desc;
 
 select * from cvs_health1;
--- Write a query to find the total drug sales for each manufacturer. Round your answer to the closest million, and report your results in descending order of total sales.
+-- Write a query to find the total drug sales for each manufacturer. 
+-- Round your answer to the closest million, and report your results in descending order of total sales.
 WITH cte as (SELECT manufacturer,(sum(total_sales)/1000000) as sale
   FROM pharmacy_sales
   GROUP BY manufacturer
@@ -57,7 +61,8 @@ WITH cte as (SELECT manufacturer,(sum(total_sales)/1000000) as sale
 
 
 select * from cvs_health1;
--- Write a query to find the top 2 drugs sold, in terms of units sold, for each manufacturer. List your results in alphabetical order by manufacturer.
+-- Write a query to find the top 2 drugs sold, in terms of units sold, for each manufacturer. 
+-- List your results in alphabetical order by manufacturer.
 with sorted_sales as (SELECT manufacturer,drug,units_sold,
 row_number()OVER(PARTITION BY manufacturer ORDER BY units_sold desc) as rn
 from pharmacy_sales )
